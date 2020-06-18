@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { getSocket, getMessages } from '../../../store/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { getSocket, getMessages } from '../../../store/actions';
 
 const ChatRoom = () => {
     const [value, setValue] = useState(null);
@@ -16,6 +16,8 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
+                    // чтобы получить сообщения
+                    roomSocket.send(id + 'no need to print it');
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
                         if (objectWithDataFromServer.id === id) setData(objectWithDataFromServer.messages);
