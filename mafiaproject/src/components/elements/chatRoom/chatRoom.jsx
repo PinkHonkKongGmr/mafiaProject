@@ -16,11 +16,12 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
-                    // чтобы получить сообщения
+                    // чтобы получить сообщения отправляем сообщение с шифром
+                    // на беке мы понимаем что его не надо класть в массив сообщений
                     roomSocket.send(id + 'no need to print it');
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
-                        if (objectWithDataFromServer.id === id) setData(objectWithDataFromServer.messages);
+                        setData(objectWithDataFromServer.messages);
                     };
                     clearInterval(interval);
                 }

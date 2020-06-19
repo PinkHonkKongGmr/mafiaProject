@@ -5,20 +5,25 @@ const cors = require('cors');
 app.use(cors());
 
 function openRout(id) {
+	const clients = new Set();
 	const messages = [];
 	app.ws(`/room/${id}`, function (ws) {
 		ws.on('message', function (msg) {
-			messages.push(msg);
-			const toSend = { id, messages };
-			const clients = expressWs.getWss().clients;
-			for (let client of clients) {
-				client.send(JSON.stringify(toSend));
+			clients.add(ws);
+			if (msg === id + 'no need to print it') {
+			} else {
+				messages.push(msg);
 			}
+			const toSend = { id, messages };
+			clients.forEach((client) => {
+				if (client.readyState !== 1) clients.delete(client);
+				else client.send(JSON.stringify(toSend));
+			});
 		});
 	});
 }
 
-app.ws('/', function (ws) {
+app.ws('/init', function (ws) {
 	ws.on('message', function (id) {
 		openRout(id);
 	});

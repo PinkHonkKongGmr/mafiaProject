@@ -8,7 +8,7 @@ const createPromiseResovedSocket = (url) =>
 
 export const getSocket = (dispatch, socketType, id) => {
     return async () => {
-        const url = socketType === 'index' ? 'ws:localhost:5000' : `ws:localhost:5000/room/${id}`;
+        const url = socketType === 'index' ? 'ws:localhost:5000/init' : `ws:localhost:5000/room/${id}`;
         const type = socketType === 'index' ? setIndexSocket : setRoomSocket;
         const indexSocketPromise = createPromiseResovedSocket(url);
         try {
