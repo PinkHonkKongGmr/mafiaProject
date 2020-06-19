@@ -1,13 +1,16 @@
-import { sendNameOfTheGame } from './types';
+import { sendNameOfTheGame, getGames } from './types';
 
 const initState = {
-    gameName: 'no_name',
+    name: 'no',
+    games: [],
 };
 
 const giveTheGameName = (state = initState, action) => {
     switch (action.type) {
         case sendNameOfTheGame:
-            return { ...state, gameName: action.payLoad };
+            return { ...state, name: action.payLoad };
+        case getGames:
+            return { ...state, games: action.payLoad };
         default:
             return state;
     }

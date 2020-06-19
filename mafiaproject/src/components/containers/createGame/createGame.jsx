@@ -17,7 +17,7 @@ const CreateGame = () => {
     const gameUrl = `/room/${uuidv4()}`;
     const inputHandler = (e) => setValue(e.target.value);
     const clickHandler = () => {
-        dispatch(sendGameName);
+        dispatch(sendGameName(value));
         setReadyToPlay(true);
     };
 

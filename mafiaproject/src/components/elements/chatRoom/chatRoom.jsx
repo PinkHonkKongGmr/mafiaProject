@@ -16,6 +16,7 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
+                    console.log('in iterval', roomSocket);
                     // чтобы получить сообщения отправляем сообщение с шифром
                     // на беке мы понимаем что его не надо класть в массив сообщений
                     roomSocket.send(id + 'no need to print it');
@@ -39,6 +40,7 @@ const ChatRoom = () => {
         const interval = setInterval(() => {
             if (roomSocket !== null) {
                 if (roomSocket.readyState !== 0) {
+                    console.log(roomSocket);
                     roomSocket.send(value);
                     clearInterval(interval);
                 }
