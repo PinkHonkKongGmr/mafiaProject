@@ -1,4 +1,4 @@
-import { setIndexSocket, setRoomSocket, setMessage, setId } from './types';
+import { setIndexSocket, setRoomSocket, setMessage, setId, sendNameOfTheGame } from './types';
 
 const createPromiseResovedSocket = (url) =>
     new Promise((res) => {
@@ -28,4 +28,9 @@ export const getId = (id) => ({
 export const getMessages = (data) => ({
     type: setMessage,
     payLoad: data,
+});
+
+export const sendGameName = (name) => ({
+    type: sendNameOfTheGame,
+    payLoad: name,
 });

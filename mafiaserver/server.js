@@ -4,6 +4,8 @@ const expressWs = require('express-ws')(app);
 const cors = require('cors');
 app.use(cors());
 
+const games = [];
+
 function openRout(id) {
 	const clients = new Set();
 	const messages = [];
@@ -25,6 +27,7 @@ function openRout(id) {
 
 app.ws('/init', function (ws) {
 	ws.on('message', function (id) {
+		games.push({ id });
 		openRout(id);
 	});
 });

@@ -1,10 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 
 const StartPage = () => {
-    const newUrl = `/room/${uuidv4()}`;
-    return <Link to={newUrl}>to</Link>;
+    const newUrl = `/createGame`;
+    const games = '/games';
+    return (
+        <>
+            <Link to={newUrl}>Cоздать игру</Link>
+            <Link to={games}>Присоединиться к игре</Link>
+        </>
+    );
 };
 
 export default StartPage;
