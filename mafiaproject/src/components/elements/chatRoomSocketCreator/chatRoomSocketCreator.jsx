@@ -33,7 +33,10 @@ const ChatRoomSocketCreator = (props) => {
             const interval = setInterval(() => {
                 if (indexSocket.state !== 0) {
                     indexSocket.send(JSON.stringify({ id, name }));
-                    setReady(true);
+                    // был баг с сокетом, видимо к моменту
+                    // создания чатрума роут не успевал создаваться
+                    // поэтому добавил таймер
+                    setTimeout(() => setReady(true), 300);
                     clearInterval(interval);
                 }
             });
