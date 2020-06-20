@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getGameList } from '../../../store/actions';
 import { v4 as uuidv4 } from 'uuid';
+import { getGameList } from '../../../store/actions';
 
 const Games = () => {
     const dispatch = useDispatch();

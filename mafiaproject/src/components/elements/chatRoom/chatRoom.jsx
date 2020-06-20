@@ -16,22 +16,27 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
-                    console.log('in iterval', roomSocket);
                     // чтобы получить сообщения отправляем сообщение с шифром
                     // на беке мы понимаем что его не надо класть в массив сообщений
                     roomSocket.send(id + 'no need to print it');
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
+
                         setData(objectWithDataFromServer.messages);
                     };
                     clearInterval(interval);
                 }
             });
         }
+        return () => {
+            if (roomSocket !== null) roomSocket.close();
+        };
     }, [roomSocket]);
-    useEffect(() => {
-        dispatch(getMessages(data));
-    }, [data]);
+
+    // useEffect(() => {
+    //     console.log(data);
+    //     dispatch(getMessages(data));
+    // }, [data]);
 
     const changeHandler = (e) => setValue(e.target.value);
 
@@ -40,7 +45,6 @@ const ChatRoom = () => {
         const interval = setInterval(() => {
             if (roomSocket !== null) {
                 if (roomSocket.readyState !== 0) {
-                    console.log(roomSocket);
                     roomSocket.send(value);
                     clearInterval(interval);
                 }
