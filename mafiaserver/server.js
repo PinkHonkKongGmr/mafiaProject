@@ -4,6 +4,8 @@ const expressWs = require('express-ws')(app);
 const cors = require('cors');
 app.use(cors());
 
+const games = [];
+
 function openRout(id) {
 	const clients = new Set();
 	const messages = [];
@@ -24,8 +26,21 @@ function openRout(id) {
 }
 
 app.ws('/init', function (ws) {
-	ws.on('message', function (id) {
+	ws.on('message', function (data) {
+		const { id, name } = JSON.parse(data);
+		if (name.length > 2) {
+			// for (let game of games) {
+			// 	if (game.name === name) return;
+			// }
+			games.push({ id, name });
+		}
 		openRout(id);
+	});
+});
+
+app.ws('/game', function (ws) {
+	ws.on('message', function () {
+		ws.send(JSON.stringify(games));
 	});
 });
 

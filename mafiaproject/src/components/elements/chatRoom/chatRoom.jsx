@@ -21,16 +21,22 @@ const ChatRoom = () => {
                     roomSocket.send(id + 'no need to print it');
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
+
                         setData(objectWithDataFromServer.messages);
                     };
                     clearInterval(interval);
                 }
             });
         }
+        return () => {
+            if (roomSocket !== null) roomSocket.close();
+        };
     }, [roomSocket]);
-    useEffect(() => {
-        dispatch(getMessages(data));
-    }, [data]);
+
+    // useEffect(() => {
+    //     console.log(data);
+    //     dispatch(getMessages(data));
+    // }, [data]);
 
     const changeHandler = (e) => setValue(e.target.value);
 
