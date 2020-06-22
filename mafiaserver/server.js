@@ -15,7 +15,8 @@ function openRout(id) {
 			const parseMsg = JSON.parse(msg);
 			if (parseMsg.init) {
 			} else {
-				messages.push(parseMsg.message);
+				const { name, message } = parseMsg;
+				messages.push({ name, message });
 			}
 			const toSend = { id, messages };
 			clients.forEach((client) => {

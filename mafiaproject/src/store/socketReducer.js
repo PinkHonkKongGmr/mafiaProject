@@ -3,7 +3,7 @@ import { setIndexSocket, setRoomSocket, setId } from './types';
 const initState = {
     indexSocket: null,
     roomSocket: null,
-    id: 0,
+    id: null,
 };
 
 const socketReducer = (state = initState, action) => {

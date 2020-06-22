@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { getSocket, getMessages } from '../../../store/actions';
+import { getSocket, getId, getMessages } from '../../../store/actions';
+import './chatroom.scss';
 
 const ChatRoom = () => {
     const [value, setValue] = useState(null);
@@ -32,6 +33,7 @@ const ChatRoom = () => {
             });
         }
         return () => {
+            dispatch(getId(null));
             if (roomSocket !== null) roomSocket.close();
         };
     }, [roomSocket]);
@@ -63,7 +65,12 @@ const ChatRoom = () => {
     };
 
     const msgs = data instanceof Array ? data : JSON.parse(data);
-    const messages = msgs.map((el) => <div key={uuidv4()}>{el}</div>);
+    const messages = msgs.map((el) => (
+        <div key={uuidv4()} className="chat_cell">
+            <div className="nickname_cell">{el.name}:</div>
+            <div className="message_cell">{el.message}</div>
+        </div>
+    ));
 
     return (
         <>

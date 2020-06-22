@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Auth = () => {
     const [value, setValue] = useState('');
     const [complete, setComplete] = useState(false);
+    const id = useSelector((state) => state.socket.id);
 
     const inputHandler = (e) => setValue(e.target.value);
     const clickHandler = () => {
@@ -12,9 +14,9 @@ const Auth = () => {
             setComplete(true);
         }
     };
-    const startPage = '/';
+    const where = id === null ? '/' : `/room/${id}`;
     const toRender = complete ? (
-        <Redirect to={startPage} />
+        <Redirect to={where} />
     ) : (
         <>
             <input type="text" placeholder="введите имя" onInput={inputHandler} />
