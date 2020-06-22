@@ -9,16 +9,21 @@ const games = [];
 function openRout(id) {
 	const clients = new Set();
 	const messages = [];
+	const participants = [];
 	app.ws(`/room/${id}`, function (ws) {
 		ws.on('message', function (msg) {
 			clients.add(ws);
 			const parseMsg = JSON.parse(msg);
+			let sendNewNameParticipant;
 			if (parseMsg.init) {
+				participants.push(parseMsg.name);
+				sendNewNameParticipant = true;
 			} else {
 				const { name, message } = parseMsg;
 				messages.push({ name, message });
+				sendNewNameParticipant = false;
 			}
-			const toSend = { id, messages };
+			const toSend = { id, messages, sendNewNameParticipant, participants };
 			clients.forEach((client) => {
 				if (client.readyState !== 1) clients.delete(client);
 				else client.send(JSON.stringify(toSend));

@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getSocket, getId, getMessages } from '../../../store/actions';
+// eslint-disable-next-line import/extensions
+import Participants from './participants.jsx';
 import './chatroom.scss';
 
 const ChatRoom = () => {
     const [value, setValue] = useState(null);
     const [data, setData] = useState([]);
+    const [participants, setParticipants] = useState([]);
     const dispatch = useDispatch();
     const roomSocket = useSelector((state) => state.socket.roomSocket);
     const id = useSelector((state) => state.socket.id);
@@ -25,6 +28,8 @@ const ChatRoom = () => {
                     roomSocket.send(initMessage);
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
+                        if (objectWithDataFromServer.sendNewNameParticipant)
+                            setParticipants(objectWithDataFromServer.participants);
 
                         setData(objectWithDataFromServer.messages);
                     };
@@ -74,12 +79,14 @@ const ChatRoom = () => {
 
     return (
         <>
-            <form name="publish" onSubmit={submitHandler}>
+            <div className="chat_main">
+                <div className="chat_window">{messages}</div>
+                <Participants participants={participants} />
+            </div>
+            <form name="publish" onSubmit={submitHandler} className="chat_form">
                 <input type="text" name="message" onChange={changeHandler} />
-                <input type="submit" value="Отправить" />
+                <button type="submit">Отправить</button>
             </form>
-
-            <div>{messages}</div>
         </>
     );
 };
