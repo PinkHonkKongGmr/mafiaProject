@@ -12,9 +12,10 @@ function openRout(id) {
 	app.ws(`/room/${id}`, function (ws) {
 		ws.on('message', function (msg) {
 			clients.add(ws);
-			if (msg === id + 'no need to print it') {
+			const parseMsg = JSON.parse(msg);
+			if (parseMsg.init) {
 			} else {
-				messages.push(msg);
+				messages.push(parseMsg.message);
 			}
 			const toSend = { id, messages };
 			clients.forEach((client) => {

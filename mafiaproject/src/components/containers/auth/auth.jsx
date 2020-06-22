@@ -8,7 +8,7 @@ const Auth = () => {
     const inputHandler = (e) => setValue(e.target.value);
     const clickHandler = () => {
         if (value.length > 2) {
-            localStorage.setItem('mafiaName', value);
+            localStorage.setItem('playerName', value);
             setComplete(true);
         }
     };

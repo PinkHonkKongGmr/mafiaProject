@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router';
-import { getSocket, getId, sendGameName } from '../../../store/actions';
+import { getSocket, sendGameName } from '../../../store/actions';
 
 import ChatRoom from '../chatRoom';
 
-const ChatRoomSocketCreator = (props) => {
+const ChatRoomSocketCreator = () => {
+    const dispatch = useDispatch(false);
+    const id = useSelector((state) => state.socket.id);
     const [socketConnected, setsocketConnected] = useState(false);
     const [ready, setReady] = useState(false);
-    const dispatch = useDispatch(false);
     const indexSocket = useSelector((state) => state.socket.indexSocket);
-    // id вытаскиваем из урла так как можем переходить по ссылке
-    const { id } = props.match.params;
     const name = useSelector((state) => state.game.name);
 
     useEffect(() => {
@@ -21,7 +19,6 @@ const ChatRoomSocketCreator = (props) => {
         if (indexSocket !== null) {
             const interval = setInterval(() => {
                 if (indexSocket.readyState !== 0) {
-                    dispatch(getId(id));
                     setsocketConnected(true);
                     clearInterval(interval);
                 }
@@ -50,4 +47,4 @@ const ChatRoomSocketCreator = (props) => {
     return ready ? <ChatRoom /> : <div>loading</div>;
 };
 
-export default withRouter(ChatRoomSocketCreator);
+export default ChatRoomSocketCreator;

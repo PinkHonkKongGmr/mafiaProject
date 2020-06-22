@@ -9,6 +9,7 @@ const ChatRoom = () => {
     const dispatch = useDispatch();
     const roomSocket = useSelector((state) => state.socket.roomSocket);
     const id = useSelector((state) => state.socket.id);
+    const name = localStorage.getItem('playerName');
     useEffect(() => {
         getSocket(dispatch, 'room', id)();
     }, []);
@@ -16,9 +17,11 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
-                    // чтобы получить сообщения отправляем сообщение с шифром
-                    // на беке мы понимаем что его не надо класть в массив сообщений
-                    roomSocket.send(id + 'no need to print it');
+                    const initMessage = JSON.stringify({
+                        init: true,
+                        name,
+                    });
+                    roomSocket.send(initMessage);
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
 
@@ -45,7 +48,12 @@ const ChatRoom = () => {
         const interval = setInterval(() => {
             if (roomSocket !== null) {
                 if (roomSocket.readyState !== 0) {
-                    roomSocket.send(value);
+                    const message = JSON.stringify({
+                        init: false,
+                        name,
+                        message: value,
+                    });
+                    roomSocket.send(message);
                     clearInterval(interval);
                 }
             }

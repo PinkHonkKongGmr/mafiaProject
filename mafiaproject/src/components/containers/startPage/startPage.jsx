@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 const StartPage = () => {
-    const name = localStorage.getItem('mafiaName');
+    const name = localStorage.getItem('playerName');
     const newUrl = `/createGame`;
     const games = '/games';
     const auth = '/auth';
