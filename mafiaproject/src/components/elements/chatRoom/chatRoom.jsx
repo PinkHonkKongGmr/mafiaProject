@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getSocket, getId, getMessages } from '../../../store/actions';
@@ -14,6 +14,8 @@ const ChatRoom = () => {
     const roomSocket = useSelector((state) => state.socket.roomSocket);
     const id = useSelector((state) => state.socket.id);
     const name = localStorage.getItem('playerName');
+    const chatWindowRef = useRef(null);
+    const msgsWindowRef = useRef(null);
     useEffect(() => {
         getSocket(dispatch, 'room', id)();
     }, []);
@@ -22,7 +24,7 @@ const ChatRoom = () => {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
                     const initMessage = JSON.stringify({
-                        init: true,
+                        service: true,
                         name,
                     });
                     roomSocket.send(initMessage);
@@ -39,14 +41,16 @@ const ChatRoom = () => {
         }
         return () => {
             dispatch(getId(null));
-            if (roomSocket !== null) roomSocket.close();
+            if (roomSocket !== null) {
+                roomSocket.send(JSON.stringify({ service: true, out: true, name }));
+                roomSocket.close();
+            }
         };
     }, [roomSocket]);
 
-    // useEffect(() => {
-    //     console.log(data);
-    //     dispatch(getMessages(data));
-    // }, [data]);
+    useEffect(() => {
+        chatWindowRef.current.scrollTop = msgsWindowRef.current.scrollHeight;
+    }, [data]);
 
     const changeHandler = (e) => setValue(e.target.value);
 
@@ -56,7 +60,7 @@ const ChatRoom = () => {
             if (roomSocket !== null) {
                 if (roomSocket.readyState !== 0) {
                     const message = JSON.stringify({
-                        init: false,
+                        service: false,
                         name,
                         message: value,
                     });
@@ -79,8 +83,10 @@ const ChatRoom = () => {
 
     return (
         <>
-            <div className="chat_main">
-                <div className="chat_window">{messages}</div>
+            <div className="chat_main" ref={chatWindowRef}>
+                <div className="chat_window" ref={msgsWindowRef}>
+                    {messages}
+                </div>
                 <Participants participants={participants} />
             </div>
             <form name="publish" onSubmit={submitHandler} className="chat_form">
