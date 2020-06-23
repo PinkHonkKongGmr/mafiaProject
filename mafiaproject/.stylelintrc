@@ -2,7 +2,7 @@
     "extends": "stylelint-config-standard",
     "rules": {
       "number-leading-zero": "never",
-      "color-hex-case": "upper",
+      "color-hex-case": "lower",
       "color-hex-length": "long",
       "at-rule-no-unknown": null,
       "indentation": 4,

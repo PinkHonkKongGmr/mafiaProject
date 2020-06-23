@@ -30,7 +30,7 @@ const ChatRoom = () => {
                     roomSocket.send(initMessage);
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
-                        if (objectWithDataFromServer.sendNewNameParticipant)
+                        if (objectWithDataFromServer.updateParticipants)
                             setParticipants(objectWithDataFromServer.participants);
 
                         setData(objectWithDataFromServer.messages);
@@ -41,10 +41,7 @@ const ChatRoom = () => {
         }
         return () => {
             dispatch(getId(null));
-            if (roomSocket !== null) {
-                roomSocket.send(JSON.stringify({ service: true, out: true, name }));
-                roomSocket.close();
-            }
+            if (roomSocket !== null) roomSocket.close();
         };
     }, [roomSocket]);
 
