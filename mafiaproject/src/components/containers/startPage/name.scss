@@ -1,0 +1,94 @@
+.nickname_pack1 {
+    color: #d40dc4;
+    animation-name: pack1 4s ease infinite;
+}
+
+.nickname_pack2 {
+    animation: pack2 4s ease infinite;
+}
+
+.welcome_pack3 {
+    animation: pack3 8s ease infinite;
+}
+
+@keyframes pack1 {
+    0% {
+        color: #f8f819;
+    }
+
+    25% {
+        color: #da00b5;
+    }
+
+    50% {
+        color: #0a0009;
+    }
+
+    75% {
+        color: #5f0bdd;
+    }
+
+    100% {
+        color: #0c0c09;
+    }
+}
+
+@keyframes pack2 {
+    0% {
+        color: #b110b1;
+    }
+
+    25% {
+        color: #f10909;
+    }
+
+    50% {
+        color: #df29c0;
+    }
+
+    75% {
+        color: #ecfa2a;
+    }
+
+    100% {
+        color: #0a0108;
+    }
+}
+
+@keyframes pack3 {
+    0% {
+        color: #ffffff;
+    }
+
+    25% {
+        color: #e4dcb9;
+    }
+
+    30% {
+        color: #030003;
+    }
+
+    35% {
+        color: #f6f7eb;
+    }
+
+    39% {
+        color: #080800;
+    }
+
+    42% {
+        color: #f8f8f8;
+    }
+
+    50% {
+        color: #0e020c;
+    }
+
+    75% {
+        color: #e5e7ca;
+    }
+
+    100% {
+        color: #faf4f9;
+    }
+}

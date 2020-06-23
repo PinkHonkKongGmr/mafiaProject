@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { getSocket, getMessages } from '../../../store/actions';
+import { getSocket, getId, getMessages } from '../../../store/actions';
+// eslint-disable-next-line import/extensions
+import Participants from './participants.jsx';
+import './chatroom.scss';
 
 const ChatRoom = () => {
     const [value, setValue] = useState(null);
     const [data, setData] = useState([]);
+    const [participants, setParticipants] = useState([]);
     const dispatch = useDispatch();
     const roomSocket = useSelector((state) => state.socket.roomSocket);
     const id = useSelector((state) => state.socket.id);
+    const name = localStorage.getItem('playerName');
+    const chatWindowRef = useRef(null);
+    const msgsWindowRef = useRef(null);
     useEffect(() => {
         getSocket(dispatch, 'room', id)();
     }, []);
@@ -16,11 +23,15 @@ const ChatRoom = () => {
         if (roomSocket !== null) {
             const interval = setInterval(() => {
                 if (roomSocket.readyState !== 0) {
-                    // чтобы получить сообщения отправляем сообщение с шифром
-                    // на беке мы понимаем что его не надо класть в массив сообщений
-                    roomSocket.send(id + 'no need to print it');
+                    const initMessage = JSON.stringify({
+                        service: true,
+                        name,
+                    });
+                    roomSocket.send(initMessage);
                     roomSocket.onmessage = (event) => {
                         const objectWithDataFromServer = JSON.parse(event.data);
+                        if (objectWithDataFromServer.updateParticipants)
+                            setParticipants(objectWithDataFromServer.participants);
 
                         setData(objectWithDataFromServer.messages);
                     };
@@ -29,14 +40,14 @@ const ChatRoom = () => {
             });
         }
         return () => {
+            dispatch(getId(null));
             if (roomSocket !== null) roomSocket.close();
         };
     }, [roomSocket]);
 
-    // useEffect(() => {
-    //     console.log(data);
-    //     dispatch(getMessages(data));
-    // }, [data]);
+    useEffect(() => {
+        chatWindowRef.current.scrollTop = msgsWindowRef.current.scrollHeight;
+    }, [data]);
 
     const changeHandler = (e) => setValue(e.target.value);
 
@@ -45,7 +56,12 @@ const ChatRoom = () => {
         const interval = setInterval(() => {
             if (roomSocket !== null) {
                 if (roomSocket.readyState !== 0) {
-                    roomSocket.send(value);
+                    const message = JSON.stringify({
+                        service: false,
+                        name,
+                        message: value,
+                    });
+                    roomSocket.send(message);
                     clearInterval(interval);
                 }
             }
@@ -55,16 +71,25 @@ const ChatRoom = () => {
     };
 
     const msgs = data instanceof Array ? data : JSON.parse(data);
-    const messages = msgs.map((el) => <div key={uuidv4()}>{el}</div>);
+    const messages = msgs.map((el) => (
+        <div key={uuidv4()} className="chat_cell">
+            <div className="nickname_cell">{el.name}:</div>
+            <div className="message_cell">{el.message}</div>
+        </div>
+    ));
 
     return (
         <>
-            <form name="publish" onSubmit={submitHandler}>
+            <div className="chat_main" ref={chatWindowRef}>
+                <div className="chat_window" ref={msgsWindowRef}>
+                    {messages}
+                </div>
+                <Participants participants={participants} />
+            </div>
+            <form name="publish" onSubmit={submitHandler} className="chat_form">
                 <input type="text" name="message" onChange={changeHandler} />
-                <input type="submit" value="Отправить" />
+                <button type="submit">Отправить</button>
             </form>
-
-            <div>{messages}</div>
         </>
     );
 };
