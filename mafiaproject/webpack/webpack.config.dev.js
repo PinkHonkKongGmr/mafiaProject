@@ -40,7 +40,7 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
-                test: /\.jsx$/,
+                test: /\.[tj]sx$/,
                 include: Path.resolve(__dirname, '../src'),
                 loader: {
                     loader: 'babel-loader',

@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
-    entry: Path.join(__dirname, '../src', 'index.jsx'),
+    entry: Path.join(__dirname, '../src', 'index.tsx'),
     output: {
         path: Path.join(__dirname, '../build'),
         filename: '[name].js',
