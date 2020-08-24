@@ -24,11 +24,16 @@ module.exports = merge(common, {
     module: {
         rules: [
             {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
                 loader: {
                     loader: 'babel-loader',
-                    options: { presets: ['@babel/preset-env', '@babel/preset-react'] },
+                    options: { presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'] },
                 },
             },
             {

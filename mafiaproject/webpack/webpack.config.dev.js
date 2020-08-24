@@ -44,7 +44,7 @@ module.exports = merge(common, {
                 include: Path.resolve(__dirname, '../src'),
                 loader: {
                     loader: 'babel-loader',
-                    options: { presets: ['@babel/preset-env', '@babel/preset-react'] },
+                    options: { presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'] },
                 },
             },
             {

@@ -7,7 +7,7 @@ import Participants from './participants.jsx';
 import './chatroom.scss';
 
 const ChatRoom = () => {
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState<string | null>(null);
     const [data, setData] = useState([]);
     const [participants, setParticipants] = useState([]);
     const dispatch = useDispatch();
@@ -16,6 +16,7 @@ const ChatRoom = () => {
     const name = localStorage.getItem('playerName');
     const chatWindowRef = useRef(null);
     const msgsWindowRef = useRef(null);
+
     useEffect(() => {
         getSocket(dispatch, 'room', id)();
     }, []);
