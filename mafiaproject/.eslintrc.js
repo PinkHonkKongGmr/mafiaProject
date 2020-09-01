@@ -3,21 +3,38 @@ module.exports = {
         browser: true,
         es6: true,
     },
-    extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
+    parser: '@typescript-eslint/parser',
+    extends: [
+        'airbnb-typescript',
+        'plugin:react/recommended', // Uses the recommended rules from @eslint-plugin-react
+        'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+        'prettier/@typescript-eslint', // Uses eslint-config-prettier to disable ESLint rules from @typescript-eslint/eslint-plugin that would conflict with prettier
+        'plugin:prettier/recommended',
+    ],
     globals: {
         Atomics: 'readonly',
         SharedArrayBuffer: 'readonly',
     },
     parserOptions: {
-        ecmaFeatures: {
-            jsx: true,
-        },
-        ecmaVersion: 2018,
+        project: './tsconfig.json',
+        ecmaVersion: 2020,
         sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true, // Allows for the parsing of JSX
+        },
     },
-    plugins: ['react', 'prettier'],
+    settings: {
+        react: {
+            version: 'detect', // Tells eslint-plugin-react to automatically detect the version of React to use
+        },
+    },
+
     rules: {
         'prettier/prettier': 'error',
+        '@typescript-eslint/no-explicit-any': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        indent: 'off',
         'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+        '@typescript-eslint/explicit-function-return-type': 'off',
     },
 };

@@ -17,6 +17,8 @@ const ChatRoom = () => {
     const chatWindowRef = useRef(null);
     const msgsWindowRef = useRef(null);
 
+
+
     useEffect(() => {
         getSocket(dispatch, 'room', id)();
     }, []);
