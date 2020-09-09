@@ -1,6 +1,6 @@
 import { setIndexSocket, setRoomSocket, setMessage, setId, sendNameOfTheGame, getGames } from './types';
 
-export const getSocket = (dispatch, socketType, id) => {
+export const getSocket = (dispatch, socketType: string, id) => {
     return async () => {
         const url = socketType === 'index' ? 'ws:localhost:5000/init' : `ws:localhost:5000/room/${id}`;
         const type = socketType === 'index' ? setIndexSocket : setRoomSocket;

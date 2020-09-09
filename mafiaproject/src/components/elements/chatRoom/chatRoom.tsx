@@ -2,20 +2,22 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { getSocket, getId, getMessages } from '../../../store/actions';
+import {rootState} from '../../../store/types/rootState';
 // eslint-disable-next-line import/extensions
 import Participants from './participants.jsx';
 import './chatroom.scss';
 
 const ChatRoom = () => {
     const [value, setValue] = useState<string | null>(null);
+    const [wrong, setWrong] = useState(false)
     const [data, setData] = useState([]);
     const [participants, setParticipants] = useState([]);
     const dispatch = useDispatch();
-    const roomSocket = useSelector((state) => state.socket.roomSocket);
-    const id = useSelector((state) => state.socket.id);
+    const roomSocket = useSelector((state:rootState) => state.socket.roomSocket);
+    const id = useSelector((state:rootState) => state.socket.id);
     const name = localStorage.getItem('playerName');
-    const chatWindowRef = useRef(null);
-    const msgsWindowRef = useRef(null);
+    const chatWindowRef = useRef<HTMLDivElement|null>(null);
+    const msgsWindowRef = useRef<HTMLDivElement|null>(null);
 
 
 
@@ -49,10 +51,15 @@ const ChatRoom = () => {
     }, [roomSocket]);
 
     useEffect(() => {
-        chatWindowRef.current.scrollTop = msgsWindowRef.current.scrollHeight;
+       
+        chatWindowRef.current!.scrollTop = msgsWindowRef.current!.scrollHeight
     }, [data]);
 
     const changeHandler = (e) => setValue(e.target.value);
+
+    const check = (str)=>str.length < 2
+
+  
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -73,6 +80,17 @@ const ChatRoom = () => {
         return false;
     };
 
+    const regularEmail: RegExp = /^(\w+)@(\w+)\.(\w{1,99})$/ig;
+
+    const isEmail = (value: string): boolean =>  regularEmail.test(value)
+
+    const onBlurHandler =(e)=>{
+        let result = isEmail(e.target.value);
+        setWrong (!result);
+        
+        
+    }
+
     const msgs = data instanceof Array ? data : JSON.parse(data);
     const messages = msgs.map((el) => (
         <div key={uuidv4()} className="chat_cell">
@@ -89,8 +107,9 @@ const ChatRoom = () => {
                 </div>
                 <Participants participants={participants} />
             </div>
-            <form name="publish" onSubmit={submitHandler} className="chat_form">
-                <input type="text" name="message" onChange={changeHandler} />
+            <form name="publish" onSubmit={submitHandler} className={wrong?'wrong':''}>
+                
+                <input type="text" name="message" onChange={changeHandler} onBlur={onBlurHandler}/>
                 <button type="submit">Отправить</button>
             </form>
         </>

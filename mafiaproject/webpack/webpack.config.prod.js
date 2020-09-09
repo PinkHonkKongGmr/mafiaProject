@@ -41,7 +41,6 @@ module.exports = merge(common, {
                 exclude: /node_modules/,
                 use: 'babel-loader',
             },
-
             {
                 test: /\.s[ac]ss$/,
                 use: [MiniCssExtractPlugin.loader, 'sass-loader'],

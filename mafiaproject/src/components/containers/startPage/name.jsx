@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './name.scss';
 
-const Name = (props) => {
+const Name = ({name}) => {
     const [color, setColor] = useState('');
     const [change, setChange] = useState(0);
     useEffect(() => {
@@ -22,8 +22,8 @@ const Name = (props) => {
 
     return (
         <>
-            <span className={color}>{props.name}</span>
-            <span className={'welcome_pack3'}>, добро пожаловать!</span>
+            <span className={color}>{name}</span>
+            <span className='welcome_pack3'>, добро пожаловать!</span>
         </>
     );
 };

@@ -58,6 +58,11 @@ module.exports = merge(common, {
                 },
             },
             {
+                test: /\.[tj]s$/,
+                include: Path.resolve(__dirname, '../src'),
+                loader: 'ts-loader',
+            },
+            {
                 test: /\.js$/,
                 include: Path.resolve(__dirname, '../src'),
                 loader: 'babel-loader',
