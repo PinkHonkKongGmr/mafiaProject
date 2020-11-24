@@ -1,7 +1,7 @@
 /* eslint-disable import/extensions */
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import Name from './name.jsx';
+import Name from './name';
 import Nav from './nav.jsx';
 
 const StartPage = () => {
@@ -14,7 +14,7 @@ const StartPage = () => {
         ) : (
             <>
                 <h3>
-                    <Name name={name}></Name>
+                    <Name name={name} />
                 </h3>
                 <Nav />
             </>

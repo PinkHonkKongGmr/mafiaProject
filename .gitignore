@@ -6,6 +6,9 @@ mafiaproject/node_modules
 /.pnp
 .pnp.js
 
+#configs
+/mafiaserver/config
+
 # testing
 /coverage
 

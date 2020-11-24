@@ -4,4 +4,4 @@ export const setId = 'set_id';
 export const socketError = 'socket_error';
 export const setMessage = 'set_message';
 export const sendNameOfTheGame = 'send_name';
-export const getGames = 'get_games';
+export const getGameSocket = 'get_gameSocket';

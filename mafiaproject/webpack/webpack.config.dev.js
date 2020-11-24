@@ -4,6 +4,7 @@ const merge = require('webpack-merge');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
+const darkTheme = require('@ant-design/dark-theme');
 
 const common = require('./webpack.common.js');
 
@@ -48,6 +49,13 @@ module.exports = merge(common, {
                 },
             },
             {
+                test: /\.[tj]sx$/,
+                include: Path.resolve(__dirname, '../src'),
+                loader: {
+                    loader: 'ts-loader',
+                },
+            },
+            {
                 test: /\.[tj]s$/,
                 include: Path.resolve(__dirname, '../src'),
                 enforce: 'pre',
@@ -75,9 +83,30 @@ module.exports = merge(common, {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
                             reloadAll: true,
+                            modules: true,
                         },
                     },
                     'css-loader?sourceMap=true',
+                ],
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                    },
+                    {
+                        loader: 'less-loader',
+                        options: {
+                            lessOptions: {
+                                javascriptEnabled: true,
+                                modifyVars: darkTheme,
+                            },
+                        },
+                    },
                 ],
             },
             {

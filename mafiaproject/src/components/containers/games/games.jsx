@@ -1,21 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
-import { getGameList } from '../../../store/actions';
+import { getGameSocketAction } from '../../../store/actions';
 import './games.scss';
 
 const Games = () => {
     const dispatch = useDispatch();
-    const games = useSelector((state) => state.game.games);
+    const gameSocket = useSelector((state) => state.game.gameSocket);
+    const [games, setGames] = useState(null);
     useEffect(() => {
-        getGameList(dispatch)();
+        getGameSocketAction(dispatch)();
     }, []);
-    useEffect(() => {}, [games]);
-    const gameList = games.length
+    useEffect(() => {
+        if (gameSocket) {
+            const interval = setInterval(() => {
+                if (gameSocket.readyState !== 0) {
+                    clearInterval(interval);
+                    gameSocket.send('give me games');
+                    gameSocket.onmessage = (event) => {
+                        console.log('send');
+                        const games = JSON.parse(event.data);
+                        setGames(games);
+                    };
+                }
+            });
+        }
+    }, [gameSocket]);
+
+    const gameList = games
         ? games.map((game) => {
               return (
-                  <div key={uuidv4()}>
+                  <div key={game.id}>
                       <Link to={`/room/${game.id}`}>{game.name}</Link>
                   </div>
               );

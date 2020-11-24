@@ -1,4 +1,4 @@
-import { setIndexSocket, setRoomSocket, setMessage, setId, sendNameOfTheGame, getGames } from './types';
+import { setIndexSocket, setRoomSocket, setMessage, setId, sendNameOfTheGame, getGameSocket } from './types';
 
 export const getSocket = (dispatch, socketType: string, id) => {
     return async () => {
@@ -34,28 +34,15 @@ export const sendGameName = (name) => {
     };
 };
 
-export const getGameList = (dispatch) => {
+export const getGameSocketAction = (dispatch) => {
     return async () => {
-        const gamesPromise = new Promise((res) => {
+        const gameSocketPromise = new Promise((res) => {
             const socket = new WebSocket('ws:localhost:5000/game');
-            let games = null;
-            const interval = setInterval(() => {
-                if (socket.readyState !== 0) {
-                    socket.send('give me games');
-
-                    socket.onmessage = (event) => {
-                        games = JSON.parse(event.data);
-                    };
-                    if (games !== null) {
-                        res(games);
-                        clearInterval(interval);
-                    }
-                }
-            });
+            res(socket);
         });
         try {
-            const game = await gamesPromise;
-            dispatch({ type: getGames, payLoad: game });
+            const gameSocket = await gameSocketPromise;
+            dispatch({ type: getGameSocket, payLoad: gameSocket });
         } catch (e) {
             dispatch({ type: setMessage, payLoad: 'something broken' });
         }

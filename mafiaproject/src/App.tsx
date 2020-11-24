@@ -6,9 +6,10 @@ import CreateGame from './components/containers/createGame';
 import Games from './components/containers/games';
 import ChatRoom from './components/elements/checkAuthBeforeEnterRoom';
 
+import 'antd/dist/antd.css';
 import './styles/main.scss';
 
-const App = () => (
+const App: React.FC = () => (
     <Router>
         <Switch>
             <Route path="/" component={StartPage} exact />
