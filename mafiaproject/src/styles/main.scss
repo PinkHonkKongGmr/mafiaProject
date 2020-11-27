@@ -4,24 +4,24 @@ body {
 }
 
 html {
-    --antd-wave-shadow-color: rgba(35, 207, 20, 0.904);
+    --antd-wave-shadow-color: rgb(55, 175, 55);
 }
 
 .ant-form-item-label label {
-    color: rgba(35, 207, 20, 0.904);
+    color: rgb(55, 175, 55);
 }
 
 .ant-switch-checked,
 .ant-checkbox-checked .ant-checkbox-inner {
-    background-color: rgba(35, 207, 20, 0.904);
+    background-color: rgb(55, 175, 55);
 }
 
 .ant-form-item-control-input-content span {
-    color: rgba(35, 207, 20, 0.904);
+    color: rgb(55, 175, 55);
 }
 
 .ant-checkbox-wrapper:hover .ant-checkbox-inner,
 .ant-checkbox:hover .ant-checkbox-inner,
 .ant-checkbox-input:focus + .ant-checkbox-inner {
-    border-color: rgba(35, 207, 20, 0.904);
+    border-color: rgb(55, 175, 55);
 }

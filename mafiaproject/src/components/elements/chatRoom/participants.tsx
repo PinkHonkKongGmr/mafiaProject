@@ -1,17 +1,16 @@
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
-type ParticipantsProps = {
-    participants: Array<string>;
-};
-const Guests: React.FC<ParticipantsProps> = ({ participants }) => {
+const Participants = ({ participants }) => {
+    const participantsToRender = participants ? participants : [];
     return (
         <div className="participants">
             <h2>Участники: </h2>
-            {participants.map((participant) => (
-                <div key={participant}>{participant}</div>
+            {participantsToRender.map((participant) => (
+                <div key={uuidv4()}>{participant}</div>
             ))}
         </div>
     );
 };
 
-export default Guests;
+export default Participants;
