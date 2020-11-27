@@ -1,27 +1,24 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSocket } from '../../../store/actions';
-import { rootState } from '../../../store/types/rootState';
-// eslint-disable-next-line import/extensions
+import React, { useState } from 'react';
+import useGetSocket from '../../../socketHooks/useGetSocket';
 import ChatBarStore from './chatBarStore.jsx';
 import ChatFormStore from './chatFormStore';
 import './chatroom.scss';
 
 const ChatRoom = () => {
-    const dispatch = useDispatch();
-    const roomSocket = useSelector<rootState, any>((state) => state.socket.roomSocket);
-    const id = useSelector<rootState, any>((state) => state.socket.id);
+    const [roomSocket, setRoomSocket] = useState<any>(null);
+    useGetSocket().then((rs) => {
+        setRoomSocket(rs);
+    });
 
-    useEffect(() => {
-        getSocket(dispatch, 'room', id)();
-    }, []);
-
-    return (
-        <>
-            <ChatBarStore roomSocket={roomSocket} />
-            <ChatFormStore roomSocket={roomSocket} />
-        </>
-    );
+    if (roomSocket) {
+        return (
+            <>
+                <ChatBarStore roomSocket={roomSocket} />
+                <ChatFormStore roomSocket={roomSocket} />
+            </>
+        );
+    }
+    return <div>...loading</div>;
 };
 
 export default ChatRoom;
