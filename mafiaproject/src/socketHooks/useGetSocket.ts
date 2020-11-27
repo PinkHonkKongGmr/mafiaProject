@@ -13,8 +13,9 @@ const useGetSocket = () => {
     const roomSocket = useSelector<rootState, any>((state) => state.socket.roomSocket);
 
     const socketPromise = new Promise((res) => {
-        setInterval(() => {
+        const interval = setInterval(() => {
             if (roomSocket && roomSocket.readyState !== 0) {
+                clearInterval(interval);
                 res(roomSocket);
             }
         });
