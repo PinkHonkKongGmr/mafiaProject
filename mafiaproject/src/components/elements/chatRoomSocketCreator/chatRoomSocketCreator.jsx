@@ -1,50 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSocket, sendGameName } from '../../../store/actions';
-
-import ChatRoom from '../chatRoom';
+import React, { useState } from 'react';
+import useGetSocket from '../../../socketHooks/useGetSocket';
+import ChatRoomLauncher from './chatRoomLauncher';
 
 const ChatRoomSocketCreator = () => {
-    const dispatch = useDispatch(false);
-    const id = useSelector((state) => state.socket.id);
-    const [socketConnected, setsocketConnected] = useState(false);
-    const [ready, setReady] = useState(false);
-    const indexSocket = useSelector((state) => state.socket.indexSocket);
-    const name = useSelector((state) => state.game.name);
+    const [indexSocket, setIndexSocket] = useState(null);
 
-    useEffect(() => {
-        getSocket(dispatch, 'index')();
-    }, []);
-    useEffect(() => {
-        if (indexSocket !== null) {
-            const interval = setInterval(() => {
-                if (indexSocket.readyState !== 0) {
-                    setsocketConnected(true);
-                    clearInterval(interval);
-                }
-            });
-        }
-    }, [indexSocket]);
+    useGetSocket('index').then((rs) => {
+        setIndexSocket(rs);
+    });
 
-    useEffect(() => {
-        if (socketConnected) {
-            const interval = setInterval(() => {
-                if (indexSocket.state !== 0) {
-                    indexSocket.send(JSON.stringify({ id, name }));
-                    // обнуляем имя чтобы не добавлять комнаты
-                    // повторно в список комнат при навигации
-                    dispatch(sendGameName('no'));
-                    // был баг с сокетом, видимо к моменту
-                    // создания чатрума роут не успевал создаваться
-                    // поэтому добавил таймер
-                    setTimeout(() => setReady(true), 300);
-                    clearInterval(interval);
-                }
-            });
-        }
-    }, [socketConnected]);
-
-    return ready ? <ChatRoom /> : <div>loading</div>;
+    if (indexSocket) {
+        return <ChatRoomLauncher indexSocket={indexSocket} />;
+    }
+    return <div>Loading</div>;
 };
 
 export default ChatRoomSocketCreator;

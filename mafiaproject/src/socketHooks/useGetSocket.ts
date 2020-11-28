@@ -1,22 +1,35 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootState } from '../store/types/rootState';
-import { getSocket } from '../store/actions';
+import { getIndexSocket, getRoomSocket, getGamesSocket } from '../store/actions/socketActions';
 
-const useGetSocket = () => {
+const useGetSocket = (type: string) => {
     const dispatch = useDispatch();
     const id = useSelector<rootState, any>((state) => state.socket.id);
 
     useEffect(() => {
-        getSocket(dispatch, 'room', id)();
+        switch (type) {
+            case 'index':
+                getIndexSocket(dispatch)();
+                break;
+            case 'room':
+                getRoomSocket(dispatch, id)();
+                break;
+            case 'games':
+                getGamesSocket(dispatch)();
+                break;
+            default:
+                getIndexSocket(dispatch)();
+                break;
+        }
     }, []);
-    const roomSocket = useSelector<rootState, any>((state) => state.socket.roomSocket);
+    const socket = useSelector<rootState, any>((state) => state.socket[`${type}Socket`]);
 
     const socketPromise = new Promise((res) => {
         const interval = setInterval(() => {
-            if (roomSocket && roomSocket.readyState !== 0) {
+            if (socket && socket.readyState !== 0) {
                 clearInterval(interval);
-                res(roomSocket);
+                res(socket);
             }
         });
     });

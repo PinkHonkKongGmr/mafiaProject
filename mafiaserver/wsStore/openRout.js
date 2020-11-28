@@ -4,6 +4,7 @@ module.exports = function openRout(app, id) {
   const clients = new Set();
   const messages = [];
   let participants = [];
+
   let updateParticipants;
   app.ws(`/room/${id}`, function (ws) {
     ws.on("message", function (msg) {
@@ -18,6 +19,7 @@ module.exports = function openRout(app, id) {
         messages.push({ name, message });
         updateParticipants = false;
       }
+
       sendDataToClient(clients, participants, updateParticipants, messages);
     });
 

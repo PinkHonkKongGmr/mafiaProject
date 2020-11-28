@@ -1,9 +1,9 @@
-import { setIndexSocket, setRoomSocket, setId } from './types';
+import { setIndexSocket, setRoomSocket, setGamesSocket } from './types';
 
 const initState = {
     indexSocket: null,
     roomSocket: null,
-    id: null,
+    gamesSocket: null,
 };
 
 const socketReducer = (state = initState, action) => {
@@ -12,8 +12,8 @@ const socketReducer = (state = initState, action) => {
             return { ...state, indexSocket: action.payLoad };
         case setRoomSocket:
             return { ...state, roomSocket: action.payLoad };
-        case setId:
-            return { ...state, id: action.payLoad };
+        case setGamesSocket:
+            return { ...state, gamesSocket: action.payLoad };
         default:
             return state;
     }

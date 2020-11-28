@@ -1,19 +1,19 @@
-import { sendNameOfTheGame, getGameSocket } from './types';
+import { sendNameOfTheGame, setId } from './types';
 
 const initState = {
     name: 'no',
-    gameSocket: null,
+    id: null,
 };
 
-const giveTheGameName = (state = initState, action) => {
+const gameParams = (state = initState, action) => {
     switch (action.type) {
         case sendNameOfTheGame:
             return { ...state, name: action.payLoad };
-        case getGameSocket:
-            return { ...state, gameSocket: action.payLoad };
+        case setId:
+            return { ...state, id: action.payLoad };
         default:
             return state;
     }
 };
 
-export default giveTheGameName;
+export default gameParams;

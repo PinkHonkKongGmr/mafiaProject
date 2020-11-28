@@ -35,6 +35,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'off',
         '@typescript-eslint/explicit-module-boundary-types': 'off',
         'react/prop-types': 0,
+        'no-console': 0,
         // indent: 'off',
         // 'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
         // '@typescript-eslint/explicit-function-return-type': 'off',

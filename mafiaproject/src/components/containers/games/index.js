@@ -1,4 +1,4 @@
 // eslint-disable-next-line import/extensions
-import Games from './games.jsx';
+import Games from './games';
 
 export default Games;

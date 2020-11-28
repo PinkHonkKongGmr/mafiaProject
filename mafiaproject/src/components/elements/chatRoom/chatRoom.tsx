@@ -6,7 +6,7 @@ import './chatroom.scss';
 
 const ChatRoom = () => {
     const [roomSocket, setRoomSocket] = useState<any>(null);
-    useGetSocket().then((rs) => {
+    useGetSocket('room').then((rs) => {
         setRoomSocket(rs);
     });
 
