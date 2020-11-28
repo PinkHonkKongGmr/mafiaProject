@@ -1,4 +1,5 @@
 export interface SocketState {
     roomSocket: any;
-    id: number;
+    indexSocket: any;
+    gamesSocket: any;
 }

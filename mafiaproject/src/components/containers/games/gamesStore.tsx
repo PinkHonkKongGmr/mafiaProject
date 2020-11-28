@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GamesList from './gamesList';
+import Loading from '../../loaders/loading';
 
 const GamesStore = ({ gamesSocket }) => {
     const [games, setGames] = useState<any>(null);
@@ -14,7 +15,7 @@ const GamesStore = ({ gamesSocket }) => {
     if (games) {
         return <GamesList games={games}></GamesList>;
     }
-    return <div style={{ color: 'yellowgreen' }}>...loading</div>;
+    return <Loading text="done" />;
 };
 
 export default GamesStore;

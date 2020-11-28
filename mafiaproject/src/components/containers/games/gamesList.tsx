@@ -13,7 +13,7 @@ const GamesList = ({ games }) => {
     return (
         <div className="gamelist">
             <h2 style={{ color: 'yellowgreen' }}>Список доступных игр:</h2>
-            {gameList.lenght ? { gameList } : <div style={{ color: 'yellow' }}>Игр пока нет, создайте свою</div>}
+            {gameList.length ? gameList : <div style={{ color: 'yellow' }}>Игр пока нет, создайте свою</div>}
         </div>
     );
 };

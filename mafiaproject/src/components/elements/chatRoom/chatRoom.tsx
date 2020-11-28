@@ -2,12 +2,17 @@ import React, { useState } from 'react';
 import useGetSocket from '../../../socketHooks/useGetSocket';
 import ChatBarStore from './chatBarStore.jsx';
 import ChatFormStore from './chatFormStore';
+import sockets from '../../../constants/socketConstants';
+import Loading from '../../loaders/loading';
 import './chatroom.scss';
 
 const ChatRoom = () => {
     const [roomSocket, setRoomSocket] = useState<any>(null);
-    useGetSocket('room').then((rs) => {
-        setRoomSocket(rs);
+    const { room } = sockets;
+    useGetSocket(room).then((rs) => {
+        setTimeout(() => {
+            setRoomSocket(rs);
+        }, 200);
     });
 
     if (roomSocket) {
@@ -18,7 +23,8 @@ const ChatRoom = () => {
             </>
         );
     }
-    return <div>...loading</div>;
+
+    return <Loading text="Get ready!" />;
 };
 
 export default ChatRoom;

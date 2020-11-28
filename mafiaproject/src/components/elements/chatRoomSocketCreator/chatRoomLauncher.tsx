@@ -7,7 +7,7 @@ import { sendGameName } from '../../../store/actions';
 const ChatRoomLauncher = ({ indexSocket }) => {
     const dispatch = useDispatch();
     const [ready, setReady] = useState(false);
-    const id = useSelector<rootState, any>((state) => state.socket.id);
+    const id = useSelector<rootState, any>((state) => state.game.id);
     const name = useSelector<rootState, any>((state) => state.game.name);
     useEffect(() => {
         indexSocket.send(JSON.stringify({ id, name }));
