@@ -15,11 +15,7 @@ const Games = () => {
     });
 
     if (gamesSocket) {
-        return (
-            <>
-                <GamesStore gamesSocket={gamesSocket} />
-            </>
-        );
+        return <GamesStore gamesSocket={gamesSocket} />;
     }
     return <Loader />;
 };

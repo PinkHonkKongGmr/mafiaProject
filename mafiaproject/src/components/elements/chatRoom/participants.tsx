@@ -5,7 +5,7 @@ const Participants = ({ participants }) => {
     const participantsToRender = participants ? participants : [];
     return (
         <div className="participants">
-            <h2>Участники: </h2>
+            <h2 className="participants_h2">Участники: </h2>
             {participantsToRender.map((participant) => (
                 <div key={uuidv4()}>{participant}</div>
             ))}

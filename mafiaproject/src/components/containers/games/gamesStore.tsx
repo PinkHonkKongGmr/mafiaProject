@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import GamesList from './gamesList';
+import GamesListStore from './gamesListStore';
 import Loading from '../../loaders/loading';
 
 const GamesStore = ({ gamesSocket }) => {
@@ -13,7 +13,7 @@ const GamesStore = ({ gamesSocket }) => {
     }, [gamesSocket]);
 
     if (games) {
-        return <GamesList games={games}></GamesList>;
+        return <GamesListStore games={games}></GamesListStore>;
     }
     return <Loading text="done" />;
 };
