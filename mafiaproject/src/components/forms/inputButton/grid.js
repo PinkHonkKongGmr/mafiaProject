@@ -1,4 +1,4 @@
-const grid = {
+export const grid = {
     a: {
         layout: {
             labelCol: {
@@ -17,4 +17,6 @@ const grid = {
     },
 };
 
-export default grid;
+export const gridTypes = {
+    typeA: 'a',
+};

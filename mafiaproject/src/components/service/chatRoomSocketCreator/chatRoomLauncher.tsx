@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ChatRoom from '../chatRoom';
+import ChatRoom from '../../pages/room';
 import { useDispatch, useSelector } from 'react-redux';
 import { rootState } from '../../../store/types/rootState';
 import { sendGameName } from '../../../store/actions';
